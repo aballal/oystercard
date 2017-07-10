@@ -23,6 +23,21 @@ describe Oystercard do
     end
   end
 
+  describe '#touch_in' do
+    it 'knows is in journey when touched in' do
+      card.touch_in
+      expect(card).to be_in_journey
+    end
+  end
+
+  describe '#touch_out' do
+    it 'knows journey has completed when touched out' do
+      card.touch_in
+      card.touch_out
+      expect(card).not_to be_in_journey
+    end
+  end
+
   describe '#new' do
     it "takes one argument at initialization" do
       expect(Oystercard).to respond_to(:new).with(1).argument
