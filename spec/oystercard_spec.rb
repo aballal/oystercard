@@ -31,7 +31,7 @@ describe Oystercard do
     end
 
     it "won't let user touch in unless there is sufficient balance" do
-      expect{ card.touch_in }.to raise_error "Insufficient balance: minimum £#{Oystercard::MIN_BALANCE} required"
+      expect{ card.touch_in }.to raise_error "Insufficient balance, minimum £#{Oystercard::MIN_BALANCE} required"
     end
   end
 
