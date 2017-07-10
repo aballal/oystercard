@@ -25,13 +25,19 @@ describe Oystercard do
 
   describe '#touch_in' do
     it 'knows is in journey when touched in' do
+      allow(card).to receive(:balance).and_return(5)
       card.touch_in
       expect(card).to be_in_journey
+    end
+
+    it "won't let user touch in unless there is sufficient balance" do
+      expect{ card.touch_in }.to raise_error "Insufficient balance: minimum £#{Oystercard::MIN_BALANCE} required"
     end
   end
 
   describe '#touch_out' do
     it 'knows journey has completed when touched out' do
+      allow(card).to receive(:balance).and_return(5)
       card.touch_in
       card.touch_out
       expect(card).not_to be_in_journey
