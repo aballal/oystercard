@@ -11,6 +11,10 @@ describe Oystercard do
     it 'increases the balance by the value' do
       expect{ card.top_up 20 }.to change{ subject.balance }.by 20
     end
+
+    it "should not allow the card to exceed its maximum balance" do
+      expect{ card.top_up 100 }.to raise_error "Cannot top up, balance will exceed £#{Oystercard::MAX_BALANCE}"
+    end
   end
 
   describe '#new' do
