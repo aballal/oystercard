@@ -6,6 +6,7 @@ class Oystercard
 
   def initialize(balance = 0)
     @balance = balance
+    @in_journey = false
   end
 
   def top_up(value)
@@ -16,5 +17,12 @@ class Oystercard
   def deduct(value)
     @balance -= value
   end
+
+  def in_journey?
+    @in_journey
+  end
+
+  private
+  attr_reader :in_journey
 
 end
