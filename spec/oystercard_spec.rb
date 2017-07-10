@@ -5,6 +5,14 @@ describe Oystercard do
 
   it { is_expected.to respond_to(:balance) }
 
+  it { is_expected.to respond_to(:top_up).with(1).argument }
+
+  describe '#top_up' do
+    it 'increases the balance by the value' do
+      expect{ card.top_up 20 }.to change{ subject.balance }.by 20
+    end
+  end
+
   describe '#new' do
     it "takes one argument at initialization" do
       expect(Oystercard).to respond_to(:new).with(1).argument
