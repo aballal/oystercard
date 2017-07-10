@@ -5,15 +5,19 @@ describe Oystercard do
 
   it { is_expected.to respond_to(:balance) }
 
-  it { is_expected.to respond_to(:top_up).with(1).argument }
-
   describe '#top_up' do
     it 'increases the balance by the value' do
-      expect{ card.top_up 20 }.to change{ subject.balance }.by 20
+      expect{ card.top_up 20 }.to change{ card.balance }.by 20
     end
 
     it "should not allow the card to exceed its maximum balance" do
       expect{ card.top_up 100 }.to raise_error "Cannot top up, balance will exceed £#{Oystercard::MAX_BALANCE}"
+    end
+  end
+
+  describe '#deduct' do
+    it 'decreases the balance by the value' do
+      expect{ card.deduct 2 }. to change{ card.balance }.by -2
     end
   end
 
