@@ -28,6 +28,17 @@ describe Journey do
      it 'can calculate a fare' do
        expect(journey.fare).to eq Oystercard::MIN_FARE
      end
+     
+     it 'should charge a penelty fare for no exit station' do
+        journey = Journey.new(station1)
+        expect(journey.fare).to eq Oystercard::PENALTY_FARE
+     end
+     
+     it 'should charge a penelty fare for no entry station' do
+        journey = Journey.new(nil, station2)
+        expect(journey.fare).to eq Oystercard::PENALTY_FARE
+     end
+     
    end
 
 end
