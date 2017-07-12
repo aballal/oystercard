@@ -7,12 +7,6 @@ describe Oystercard do
   let(:station2) {double(:station, :name => "Fish Market", :zone => 3)}
   let(:journey)  {double(:journey, :entry_station => station1, :exit_station => station2)}
 
-  it { is_expected.to respond_to(:balance) }
-
-  it { is_expected.to respond_to(:entry_station) }
-
-  it { is_expected.to respond_to(:journeys) }
-
   describe '#top_up' do
 
     it 'increases the balance by top up value' do
@@ -41,30 +35,26 @@ describe Oystercard do
     before do
       card.top_up(20)
       card.touch_in(station1)
+      card.touch_out(station2)
     end
 
     it 'knows journey has completed when touched out' do
-      card.touch_out(station2)
       expect(card).not_to be_in_journey
     end
 
     it 'forgets the entry station when touched out' do
-      expect { card.touch_out(station2) }.to change {card.entry_station}.to nil
+      expect(card.entry_station).to be_nil
     end
 
     it 'reduces balance by minimum fare' do
-      expect { card.touch_out(station2) }.to change { card.balance }.by(-Oystercard::MIN_FARE)
+      expect(card.balance).to eq (20-Oystercard::MIN_FARE)
     end
 
-    it 'remembers the journey' do
-      card.touch_in(station1)
-      card.touch_out(station2)
+    it 'remembers the journey start station' do
       expect(card.journeys[0].entry_station).to eq journey.entry_station
     end
 
-    it 'remembers the journey' do
-      card.touch_in(station1)
-      card.touch_out(station2)
+    it 'remembers the journey end station' do
       expect(card.journeys[0].exit_station).to eq journey.exit_station
     end
 

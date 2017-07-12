@@ -30,16 +30,20 @@ class Oystercard
 
   def touch_out(station)
     deduct(MIN_FARE)
-    journey = Journey.new(entry_station,station)
-    @journeys << journey
-    @entry_station = nil
-    journey.exit_station
+    create_new_journey(station)
   end
 
   private
 
   def deduct(value)
     @balance -= value
+  end
+
+  def create_new_journey(station)
+    journey = Journey.new(entry_station,station)
+    @journeys << journey
+    @entry_station = nil
+    journey.exit_station
   end
 
   def fail_if_above_max_balance(value)
