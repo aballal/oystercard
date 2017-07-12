@@ -5,12 +5,12 @@
 require_relative '../lib/oystercard.rb'
 
 card = Oystercard.new(20)
-puts "Card is #{"not " unless card.in_journey?}being used in journey"
+puts "Card is #{'not ' unless card.in_journey?}being used in journey"
 
-puts "Touched in"
+puts 'Touched in'
 card.touch_in
-puts "Card is #{"not " unless card.in_journey?}being used in journey"
+puts "Card is #{'not ' unless card.in_journey?}being used in journey"
 
-puts "Touched out"
+puts 'Touched out'
 card.touch_out
-puts "Card is #{"not " unless card.in_journey?}being used in journey"
+puts "Card is #{'not ' unless card.in_journey?}being used in journey"

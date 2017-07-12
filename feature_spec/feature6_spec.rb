@@ -14,4 +14,4 @@ end
 card = Oystercard.new
 card.top_up(5)
 card.touch_in
-puts "Card touched in"
+puts 'Card touched in'
