@@ -26,7 +26,7 @@ describe Oystercard do
     end
 
     it 'remembers the entry station when touched in' do
-      expect(card.entry_station).to eq station1
+      expect(card.journeys[0].entry_station).to eq station1
     end
 
   end
@@ -41,11 +41,11 @@ describe Oystercard do
     it 'knows journey has completed when touched out' do
       expect(card).not_to be_in_journey
     end
-
+=begin
     it 'forgets the entry station when touched out' do
-      expect(card.entry_station).to be_nil
+      expect(card.journeys[0].entry_station).to be_nil
     end
-
+=end
     it 'reduces balance by minimum fare' do
       expect(card.balance).to eq (20-Oystercard::MIN_FARE)
     end
@@ -70,6 +70,8 @@ describe Oystercard do
     end
 
     it 'should not be in journey' do
+      card = Oystercard.new
+      allow(journey).to receive(:complete?).and_return true
       expect(card.in_journey?).to be false
     end
 

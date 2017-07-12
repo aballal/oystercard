@@ -20,17 +20,21 @@ class Oystercard
   end
 
   def in_journey?
-    !!entry_station
+    return false if journeys.empty?
+    #!!entry_station
+    !journeys.last.complete?
   end
 
   def touch_in(station)
     fail_if_below_min_balance
-    @entry_station = station
+    create_new_journey(station)
+    #@entry_station = station
   end
 
   def touch_out(station)
     deduct(MIN_FARE)
-    create_new_journey(station)
+    #create_new_journey(station)
+    journeys.last.set_exit_station(station)
   end
 
   private
@@ -40,10 +44,12 @@ class Oystercard
   end
 
   def create_new_journey(station)
-    journey = Journey.new(entry_station,station)
+    #journey = Journey.new(entry_station,station)
+    journey = Journey.new(station, nil)
     @journeys << journey
-    @entry_station = nil
-    journey.exit_station
+    #@entry_station = nil
+    #journey.exit_station
+    journey.entry_station
   end
 
   def fail_if_above_max_balance(value)

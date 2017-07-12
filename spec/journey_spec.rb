@@ -5,10 +5,23 @@ describe Journey do
     let(:station1) {double(:station, :name => "Kings Cross", :zone => 1)}
     let(:station2) {double(:station, :name => "Fish Market", :zone => 3)}
     let(:station3) {double(:station, :name => "Victoria", :zone => 2)}
-
+    describe '#set_exit_station' do
+        it 'allows us to set an exit station' do
+            expect{journey.set_exit_station(station3)}.to change{journey.exit_station}.to station3
+        end
+    end
+    
     describe '#entry_station' do
       it 'tell us the station the entry station' do
         expect(journey.entry_station).to eq station1
+      end
+    end
+    
+    describe '#complete?' do
+      it 'retuns true if the journey is complete' do
+        p "testing this"
+        journey = Journey.new("Kings Cross", nil)
+        expect(journey.complete?).to eq false
       end
     end
 
