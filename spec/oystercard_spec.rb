@@ -9,7 +9,7 @@ describe Oystercard do
 
   it { is_expected.to respond_to(:entry_station) }
 
-  it { is_expected.to respond_to(:journey) }
+  it { is_expected.to respond_to(:journeys) }
 
   describe '#top_up' do
 
@@ -55,10 +55,9 @@ describe Oystercard do
     end
 
     it 'remembers the journey' do
-      puts "\nTesting this"
       card.touch_in(station1)
       card.touch_out(station2)
-      expect(card.journey).to eq [station1, station2]
+      expect(card.journeys[0]).to eq [station1, station2]
     end
   end
 
@@ -76,7 +75,7 @@ describe Oystercard do
     end
 
     it 'should not have a journey' do
-      expect(card.journey).to be_empty
+      expect(card.journeys).to be_empty
     end
   end
 
