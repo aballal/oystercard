@@ -1,9 +1,11 @@
 require 'oystercard'
+require 'journey'
 
 describe Oystercard do
   subject(:card) { described_class.new }
-  let(:station1)   {double(:station)}
-  let(:station2)   {double(:station)}
+  let(:station1) {double(:station, :name => "Kings Cross", :zone => 1)}
+  let(:station2) {double(:station, :name => "Fish Market", :zone => 3)}
+  let(:journey)  {double(:journey, :entry_station => station1, :exit_station => station2)}
 
   it { is_expected.to respond_to(:balance) }
 
@@ -57,8 +59,15 @@ describe Oystercard do
     it 'remembers the journey' do
       card.touch_in(station1)
       card.touch_out(station2)
-      expect(card.journeys[0]).to eq [station1, station2]
+      expect(card.journeys[0].entry_station).to eq journey.entry_station
     end
+
+    it 'remembers the journey' do
+      card.touch_in(station1)
+      card.touch_out(station2)
+      expect(card.journeys[0].exit_station).to eq journey.exit_station
+    end
+
   end
 
   describe '#new' do
