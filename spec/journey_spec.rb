@@ -7,38 +7,30 @@ describe Journey do
     let(:station3) {double(:station, :name => "Victoria", :zone => 2)}
 
     describe '#entry_station' do
-        it 'tell us the station the entry station' do
-            expect(journey.entry_station).to eq station1
-        end
+      it 'tell us the station the entry station' do
+        expect(journey.entry_station).to eq station1
+      end
     end
 
     describe '#exit_station' do
-        it 'tell us the station we have left' do
-            expect(journey.exit_station).to eq station2
-        end
+      it 'tell us the station we have left' do
+        expect(journey.exit_station).to eq station2
+      end
     end
 
-   describe '#set_exit_station' do
-       it 'allows us to set an exit station' do
-           expect{journey.set_exit_station(station3)}.to change{journey.exit_station}.to station3
-       end
-   end
+    describe '#fare' do
+      it 'can calculate a fare' do
+        expect(journey.fare).to eq Oystercard::MIN_FARE
+      end
 
-   describe '#fare' do
-     it 'can calculate a fare' do
-       expect(journey.fare).to eq Oystercard::MIN_FARE
-     end
-     
-     it 'should charge a penelty fare for no exit station' do
+      it 'should charge a penelty fare for no exit station' do
         journey = Journey.new(station1)
         expect(journey.fare).to eq Oystercard::PENALTY_FARE
-     end
-     
-     it 'should charge a penelty fare for no entry station' do
+      end
+
+      it 'should charge a penelty fare for no entry station' do
         journey = Journey.new(nil, station2)
         expect(journey.fare).to eq Oystercard::PENALTY_FARE
-     end
-     
-   end
-
+      end
+    end
 end

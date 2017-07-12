@@ -1,4 +1,4 @@
-require 'oystercard'
+require_relative 'oystercard'
 
 class Journey
    attr_reader :entry_station, :exit_station, :fare
@@ -8,9 +8,4 @@ class Journey
         @exit_station = exit_station
         @fare = (entry_station.nil? || exit_station.nil?) ? Oystercard::PENALTY_FARE : Oystercard::MIN_FARE
     end
-
-    def set_exit_station(station)
-        @exit_station = station
-    end
-
 end
