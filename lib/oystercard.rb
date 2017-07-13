@@ -5,7 +5,7 @@ class Oystercard
   MAX_BALANCE = 90
   MIN_BALANCE = 1
 
-  attr_reader :balance, :journeys
+  attr_reader :balance
 
   def initialize(balance = 0)
     @balance = balance
@@ -18,8 +18,8 @@ class Oystercard
   end
 
   def in_journey?
-    return false if journeys.empty?
-    !journeys.last.complete?
+    return false if @journeys.empty?
+    !@journeys.last.complete?
   end
 
   def touch_in(station)
@@ -28,8 +28,19 @@ class Oystercard
   end
 
   def touch_out(station)
-    journeys.last.set_exit_station(station)
-    deduct(journeys.last.fare)
+    @journeys.last.set_exit_station(station)
+    deduct(@journeys.last.fare)
+  end
+
+  def journeys(mode)
+    case mode
+    when :last
+      @journeys[-1]
+    when :check_empty
+      @journeys.empty?
+    else
+      raise "Invalid query mode; expected ':last' or ':check_empty'"
+    end
   end
 
   private
@@ -41,7 +52,7 @@ class Oystercard
   def create_new_journey(station)
     journey = Journey.new(station, nil)
     @journeys << journey
-    journey.entry_station
+    @journeys.last.entry_station
   end
 
   def fail_if_above_max_balance(value)
