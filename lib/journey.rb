@@ -16,11 +16,11 @@ class Journey
   end
 
   def complete?
-    !!exit_station
+    !!(entry_station && exit_station)
   end
 
   def fare
-    (entry_station.nil? || exit_station.nil?) ? PENALTY_FARE : MIN_FARE
+    complete? ? MIN_FARE : PENALTY_FARE
   end
 
 end

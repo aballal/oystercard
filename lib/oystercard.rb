@@ -17,9 +17,11 @@ class Oystercard
     @balance += value
   end
 
+  #in_journey? is not same as complete? in Journey class
+  #in_journey? tells whether a journey is currently in progress
   def in_journey?
     return false if @journeys.empty?
-    !@journeys.last.complete?
+    !@journeys.last.exit_station
   end
 
   def touch_in(station)
