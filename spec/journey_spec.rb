@@ -7,13 +7,13 @@ describe Journey do
   let(:station3) {double(:station, :name => "Stratford", :zone => 3)}
 
   describe '#entry_station' do
-    it 'tells the station where the journey started' do
+    it 'tells where the journey started' do
       expect(journey.entry_station).to eq station1
     end
   end
 
   describe '#exit_station' do
-    it 'tells the station where the journey ended' do
+    it 'tells where the journey ended' do
       expect(journey.exit_station).to eq station2
     end
   end
@@ -32,18 +32,19 @@ describe Journey do
   end
 
   describe '#fare' do
-    it 'can calculate a fare' do
+    it 'should charge the minimum fare for a complete journey' do
       expect(journey.fare).to eq Journey::MIN_FARE
     end
 
-    it 'should charge a penelty fare for no exit station' do
-      journey = Journey.new(station1)
-      expect(journey.fare).to eq Journey::PENALTY_FARE
-    end
-
-    it 'should charge a penelty fare for no entry station' do
+    it 'should charge the penalty fare when no entry station' do
       journey = Journey.new(nil, station2)
       expect(journey.fare).to eq Journey::PENALTY_FARE
     end
+
+    it 'should charge the penalty fare when no exit station' do
+      journey = Journey.new(station1)
+      expect(journey.fare).to eq Journey::PENALTY_FARE
+    end
   end
+
 end
