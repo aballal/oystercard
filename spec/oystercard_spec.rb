@@ -3,7 +3,7 @@ require 'oystercard'
 describe Oystercard do
   subject(:card) { described_class.new }
   let(:station1) {double(:station, :name => "Kings Cross", :zone => 1)}
-  let(:station2) {double(:station, :name => "Fish Market", :zone => 3)}
+  let(:station2) {double(:station, :name => "Canary Wharf", :zone => 2)}
   let(:journey)  {double(:journey, :entry_station => station1, :exit_station => station2)}
 
   describe '#new' do
@@ -52,10 +52,6 @@ describe Oystercard do
       card.touch_in(station1)
     end
 
-    it 'knows is in journey when touched in' do
-      expect(card).to be_in_journey
-    end
-
     it 'remembers the entry station when touched in' do
       expect(card.journeys(:last).entry_station).to eq station1
     end
@@ -66,10 +62,6 @@ describe Oystercard do
       card.top_up(20)
       card.touch_in(station1)
       card.touch_out(station2)
-    end
-
-    it 'knows journey has completed when touched out' do
-      expect(card).not_to be_in_journey
     end
 
     it 'reduces balance by minimum fare' do
