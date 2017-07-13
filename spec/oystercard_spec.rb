@@ -19,17 +19,30 @@ describe Oystercard do
     it 'should not have any journeys' do
       expect(card.journeys(:check_empty)).to eq true
     end
-  end
 
-  it 'should not be in journey' do
-    card = Oystercard.new
-    allow(journey).to receive(:complete?).and_return true
-    expect(card.in_journey?).to be false
+    it 'should not be in journey when created' do
+      expect(card.in_journey?).to be false
+    end
   end
 
   describe '#top_up' do
     it 'increases the balance by top up value' do
       expect { card.top_up(20) }.to change { card.balance }.by 20
+    end
+  end
+
+  describe '#in_journey?' do
+    before do
+      card.top_up(20)
+    end
+
+    it 'should be in journey when touched in' do
+      expect { card.touch_in(station1) }.to change {card.in_journey?}.to true
+    end
+
+    it 'should not be in journey when touched out' do
+      card.touch_in(station1)
+      expect { card.touch_out(station2) }.to change {card.in_journey?}.to false
     end
   end
 
