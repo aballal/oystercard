@@ -6,6 +6,27 @@ describe Oystercard do
   let(:station2) {double(:station, :name => "Fish Market", :zone => 3)}
   let(:journey)  {double(:journey, :entry_station => station1, :exit_station => station2)}
 
+  describe '#new' do
+    it 'should create a card with zero balance' do
+      expect(card.balance).to eq 0
+    end
+
+    it 'can have a balance when created' do
+      card = Oystercard.new(20)
+      expect(card.balance).to eq 20
+    end
+
+    it 'should not have any journeys' do
+      expect(card.journeys(:check_empty)).to eq true
+    end
+  end
+
+  it 'should not be in journey' do
+    card = Oystercard.new
+    allow(journey).to receive(:complete?).and_return true
+    expect(card.in_journey?).to be false
+  end
+
   describe '#top_up' do
     it 'increases the balance by top up value' do
       expect { card.top_up(20) }.to change { card.balance }.by 20
@@ -48,26 +69,6 @@ describe Oystercard do
 
     it 'remembers the journey end station' do
       expect(card.journeys(:last).exit_station).to eq journey.exit_station
-    end
-  end
-
-  describe '#new' do
-    it 'takes one argument at initialization' do
-      expect(Oystercard).to respond_to(:new).with(1).argument
-    end
-
-    it 'should create a card with zero balance' do
-      expect(card.balance).to eq 0
-    end
-
-    it 'should not be in journey' do
-      card = Oystercard.new
-      allow(journey).to receive(:complete?).and_return true
-      expect(card.in_journey?).to be false
-    end
-
-    it 'should not have a journey' do
-      expect(card.journeys(:check_empty)).to eq true
     end
   end
 
