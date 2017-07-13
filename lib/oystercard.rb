@@ -1,4 +1,4 @@
-require_relative 'journey'
+require_relative 'journey_log'
 
 class Oystercard
 
@@ -7,9 +7,9 @@ class Oystercard
 
   attr_reader :balance
 
-  def initialize(balance = 0)
+  def initialize(balance = 0, journey_log_class = JourneyLog)
     @balance = balance
-    @journeys = []
+    @journey_log = journey_log_class.new
   end
 
   def top_up(value)
@@ -17,29 +17,29 @@ class Oystercard
     @balance += value
   end
 
-  #in_journey? is not same as complete? in Journey class
-  #in_journey? tells whether a journey is currently in progress
+  #in_journey? is not the same as !complete? in Journey class
+  #in_journey? tells whether a card is in use in a current journey
   def in_journey?
-    return false if @journeys.empty?
-    !@journeys.last.exit_station
+    return false if @journey_log.journeys.empty?
+    !@journey_log.journeys.last.exit_station
   end
 
   def touch_in(station)
     fail_if_below_min_balance
-    create_new_journey(station)
+    @journey_log.start(station)
   end
 
   def touch_out(station)
-    @journeys.last.set_exit_station(station)
-    deduct(@journeys.last.fare)
+    @journey_log.finish(station)
+    deduct(@journey_log.journeys.last.fare)
   end
 
   def journeys(mode)
     case mode
     when :last
-      @journeys[-1]
+      @journey_log.journeys.last
     when :check_empty
-      @journeys.empty?
+      @journey_log.journeys.empty?
     else
       raise "Invalid query mode; expected ':last' or ':check_empty'"
     end
@@ -49,12 +49,6 @@ class Oystercard
 
   def deduct(value)
     @balance -= value
-  end
-
-  def create_new_journey(station)
-    journey = Journey.new(station, nil)
-    @journeys << journey
-    @journeys.last.entry_station
   end
 
   def fail_if_above_max_balance(value)
