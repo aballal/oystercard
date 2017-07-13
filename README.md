@@ -25,3 +25,7 @@ You can do the following with your Oystercard
 #### Journey
 
 #### Station
+
+### Specs
+
+The feature specs feature_spec/feature1_spec.rb demonstrate how the program has evolved. Note that the older feature tests may throw an error with the current libs. This is expected as the design has evolved one user story at a time. The last feature spec however should be working.

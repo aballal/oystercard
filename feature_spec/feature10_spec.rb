@@ -1,3 +1,8 @@
+#Step 14
+# In order to be charged correctly
+# As a customer
+# I need a penalty charge deducted if I fail to touch in or out
+
 require_relative '../lib/oystercard.rb'
 require_relative '../lib/station.rb'
 require_relative '../lib/journey.rb'

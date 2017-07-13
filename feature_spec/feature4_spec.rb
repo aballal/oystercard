@@ -1,3 +1,4 @@
+# Step 7
 # In order to pay for my journey
 # As a customer
 # I need my fare deducted from my card
