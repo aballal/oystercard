@@ -21,4 +21,9 @@ describe JourneyLog do
     expect(journey_log.journeys.last.exit_station).to eq station2
   end
 
+  it 'a finish without a start will create an incomplete journey' do
+    journey_log.finish(station2)
+    expect(journey_log.journeys.last.exit_station).to eq station2
+  end
+
 end
