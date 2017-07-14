@@ -24,7 +24,13 @@ class JourneyLog
   private
 
   def current_journey
-    (@journeys.empty? || @journeys.last.complete?) ? @journey_class.new : @journeys.last
+    if @journeys.empty? || @journeys.last.complete?
+      journey = @journey_class.new
+      @journeys << journey
+      journey
+    else
+      @journeys.last
+    end
   end
 
 end

@@ -38,12 +38,17 @@ describe Journey do
       expect(new_journey.complete?).to eq false
     end
 
-    it 'tells that a journey is incomplete when it is' do
+    it 'tells that a journey is incomplete when it has only entry station' do
       journey = Journey.new(station1, nil)
       expect(journey.complete?).to eq false
     end
 
-    it 'tells that a journey is complete when it is' do
+    it 'tells that a journey is incomplete when it has only exit station' do
+      journey = Journey.new(nil, station2)
+      expect(journey.complete?).to eq false
+    end
+
+    it 'tells that a journey is complete when it has both entry and exit stations' do
       journey = Journey.new(station1, station2)
       expect(journey.complete?).to eq true
     end
