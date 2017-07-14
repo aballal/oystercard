@@ -65,7 +65,7 @@ describe Oystercard do
     end
 
     it 'reduces balance by minimum fare' do
-      expect(card.balance).to eq (20-Journey::MIN_FARE)
+      expect(card.balance).to eq (20-(Journey::MIN_FARE + Journey::PER_ZONE_FARE * 1))
     end
 
     it 'remembers the journey start station' do

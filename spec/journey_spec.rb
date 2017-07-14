@@ -59,8 +59,9 @@ describe Journey do
       expect(new_journey.fare).to eq Journey::PENALTY_FARE
     end
 
-    it 'should charge the minimum fare for a complete journey' do
-      expect(journey.fare).to eq Journey::MIN_FARE
+    it 'should charge the appropriate fare for a complete journey' do
+      journey = Journey.new(station1,station3)
+      expect(journey.fare).to eq Journey::MIN_FARE + Journey::PER_ZONE_FARE * 2
     end
 
     it 'should charge the penalty fare when no entry station' do
