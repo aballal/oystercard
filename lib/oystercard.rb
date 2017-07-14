@@ -17,8 +17,6 @@ class Oystercard
     @balance += value
   end
 
-  #in_journey? is not the same as !complete? in Journey class
-  #in_journey? tells whether a card is in use in a current journey
   def in_journey?
     return false if @journey_log.journeys.empty?
     !@journey_log.journeys.last.exit_station
@@ -26,6 +24,7 @@ class Oystercard
 
   def touch_in(station)
     fail_if_below_min_balance
+    deduct(@journey_log.journeys.last.fare) if in_journey?
     @journey_log.start(station)
   end
 
@@ -34,15 +33,8 @@ class Oystercard
     deduct(@journey_log.journeys.last.fare)
   end
 
-  def journeys(mode)
-    case mode
-    when :last
-      @journey_log.journeys.last
-    when :check_empty
-      @journey_log.journeys.empty?
-    else
-      raise "Invalid query mode; expected ':last' or ':check_empty'"
-    end
+  def journeys
+    @journey_log.journeys.dup
   end
 
   private

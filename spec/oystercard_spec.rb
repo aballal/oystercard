@@ -17,7 +17,7 @@ describe Oystercard do
     end
 
     it 'should not have any journeys' do
-      expect(card.journeys(:check_empty)).to eq true
+      expect(card.journeys.empty?).to eq true
     end
 
     it 'should not be in journey when created' do
@@ -53,7 +53,7 @@ describe Oystercard do
     end
 
     it 'remembers the entry station when touched in' do
-      expect(card.journeys(:last).entry_station).to eq station1
+      expect(card.journeys.last.entry_station).to eq station1
     end
   end
 
@@ -69,11 +69,11 @@ describe Oystercard do
     end
 
     it 'remembers the journey start station' do
-      expect(card.journeys(:last).entry_station).to eq journey.entry_station
+      expect(card.journeys.last.entry_station).to eq journey.entry_station
     end
 
     it 'remembers the journey end station' do
-      expect(card.journeys(:last).exit_station).to eq journey.exit_station
+      expect(card.journeys.last.exit_station).to eq journey.exit_station
     end
   end
 
